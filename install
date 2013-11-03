@@ -8,7 +8,7 @@ mkdir ~/Media
 mkdir ~/Media/TV_Shows
 mkdir ~/Media/Movies
 
-printf "\n--->Adding repo’s…\n"
+printf "\n--->Adding repo's…\n"
 sudo add-apt-repository -y ppa:transmissionbt/ppa
 sudo add-apt-repository -y ppa:jcfp/ppa
 sudo apt-get update
@@ -61,6 +61,18 @@ printf "SB_USER=$USER\nSB_HOME=/home/$USER/.sickbeard\nSB_DATA=/home/$USER/.sick
 sed -i 's,use_nzbs = 0,use_nzbs = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,nzb_method = blackhole,nzb_method = sabnzbd,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,torrent_method = blackhole,torrent_method = transmission,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,naming_pattern = %SN - %Sx%0E - %EN,naming_pattern = Season %0S/%S.N.S%0SE%0E.%Q.N-%RG,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,keep_processed_dir = 1,keep_processed_dir = 0,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,thepiratebay_proxy = 0,thepiratebay_proxy = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,thepiratebay_proxy_url = "",thepiratebay_proxy_url = http://getprivate.eu/,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,kat = 0,kat = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,publichd = 0,publichd = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,use_subtitles = 0,use_subtitles = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,subtitles_languages = "",subtitles_languages = "nl\,en",g' /home/$USER/.sickbeard/config.ini
+sed -i 's,SUBTITLES_SERVICES_LIST = "",SUBTITLES_SERVICES_LIST = "itasa\,subtitulos\,podnapisiweb\,tvsubtitles\,opensubtitles\,addic7ed\,bierdopje\,thesubdb\,subswiki\,usub",g' /home/$USER/.sickbeard/config.ini
+sed -i 's,SUBTITLES_SERVICES_ENABLED = "",SUBTITLES_SERVICES_ENABLED = 1|1|1|1|1|1|1|1|1|1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,use_failed_downloads = 0,use_failed_downloads = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,delete_failed = 0,delete_failed = 1,g' /home/$USER/.sickbeard/config.ini
 SAB_API=$(sed -n 's/^api_key = //p' /home/$USER/.sabnzbd/sabnzbd.ini)
 sed -i 's,sab_apikey = "",sab_apikey = '$SAB_API',g' /home/$USER/.sickbeard/config.ini
 sed -i 's,sab_host = "",sab_host = http://localhost:8080/,g' /home/$USER/.sickbeard/config.ini
@@ -91,4 +103,4 @@ sudo chmod +x /etc/init.d/couchpotato
 sudo chmod +x /etc/default/couchpotato
 sudo update-rc.d couchpotato defaults
 
-printf "\nDone! Don’t forget to reboot.\n”
+printf "\nDone! Don't forget to reboot.\n"
