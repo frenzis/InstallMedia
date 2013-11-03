@@ -56,7 +56,7 @@ sed -i 's,script_dir = "",script_dir = "/home/'$USER'/.sabnzbd/scripts",g' /home
 printf "[categories]\n[[tv]]\npriority = -100\npp = 3\nname = tv\nscript = nzbToSickBeard.py\nnewzbin = ""\ndir = ""\n[[movie]]\npriority = -100\npp = 3\nname = movie\nscript = nzbToCouchPotato.py\nnewzbin = ""\ndir = ""\n" >> /home/$USER/.sabnzbd/sabnzbd.ini
 
 printf "\n--->Configuring Sickbeard\n"
-sudo cp .sickbeard/init.ubuntu /etc/init.d/sickbeard
+sudo cp /home/$USER/.sickbeard/init.ubuntu /etc/init.d/sickbeard
 printf "SB_USER=$USER\nSB_HOME=/home/$USER/.sickbeard\nSB_DATA=/home/$USER/.sickbeard\nSB_PIDFILE=/home/$USER/.sickbeard/pid\n" | sudo tee /etc/default/sickbeard
 sed -i 's,use_nzbs = 0,use_nzbs = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,nzb_method = blackhole,nzb_method = sabnzbd,g' /home/$USER/.sickbeard/config.ini
@@ -82,7 +82,7 @@ sed -i 's,torrent_path = "",torrent_path = /home/'$USER'/Downloads/Complete/tv,g
 sed -i 's,nzb_method = blackhole,nzb_method = sabnzbd,g' /home/$USER/.sickbeard/config.ini
 
 printf "\n--->Configuring Couchpotato\n"
-sudo cp .couchpotato/init/ubuntu /etc/init.d/couchpotato
+sudo cp /home/$USER/.couchpotato/init/ubuntu /etc/init.d/couchpotato
 printf "CP_USER=$USER\nCP_HOME=/home/$USER/.couchpotato\nCP_DATA=/home/$USER/.couchpotato/couchpotato_data\nCP_PIDFILE=/home/$USER/.couchpotato/pid\n" | sudo tee /etc/default/couchpotato
 
 printf "\n--->Configuring nzbToMedia\n"
