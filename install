@@ -66,6 +66,7 @@ sed -i 's,keep_processed_dir = 1,keep_processed_dir = 0,g' /home/$USER/.sickbear
 sed -i 's,thepiratebay_proxy = 0,thepiratebay_proxy = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,thepiratebay_proxy_url = "",thepiratebay_proxy_url = http://getprivate.eu/,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,kat = 0,kat = 1,g' /home/$USER/.sickbeard/config.ini
+sed -i 's,metadata_xbmc_v12 = 0|0|0|0|0|0,metadata_xbmc_v12 = 1|1|1|1|1|1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,publichd = 0,publichd = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,use_subtitles = 0,use_subtitles = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,subtitles_languages = "",subtitles_languages = "nl\,en",g' /home/$USER/.sickbeard/config.ini
