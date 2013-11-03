@@ -11,11 +11,10 @@ mkdir ~/Media/Movies
 printf "\n--->Adding repo’s…\n"
 sudo add-apt-repository -y ppa:transmissionbt/ppa
 sudo add-apt-repository -y ppa:jcfp/ppa
-
 sudo apt-get update
 
 printf "\n--->Installing Transmission, SabNZBD and GIT…\n"
-sudo apt-get -y install transmission-cli transmission-common transmission-daemon sabnzbdplus git mercurial
+sudo apt-get -y install transmission-cli transmission-common transmission-daemon sabnzbdplus git
 
 printf "\n--->Configuring SabNZBD…\n"
 sudo sed -i 's,USER=,USER='$USER',g' /etc/default/sabnzbdplus
@@ -42,7 +41,6 @@ git clone -b dev-TPB https://github.com/clinton-hall/nzbToMedia.git .sabnzbd/scr
 printf "\n--->Configuring Transmission\n"
 sudo chown -R $USER:$USER /var/lib/transmission-daemon
 sudo chown -R $USER:$USER /etc/transmission-daemon
-
 sed -i 's,/var/lib/transmission-daemon/downloads,/home/'$USER'/Downloads/Complete,g' /etc/transmission-daemon/settings.json
 sed -i 's,/home/debian-transmission/Downloads,/home/'$USER'/Downloads/Incomplete,g' /etc/transmission-daemon/settings.json
 sed -i 's,"incomplete-dir-enabled": false,"incomplete-dir-enabled": true,g' /etc/transmission-daemon/settings.json
@@ -50,58 +48,39 @@ sed -i 's,"rpc-authentication-required": true,"rpc-authentication-required": fal
 sed -i 's,"rpc-whitelist-enabled": true,"rpc-whitelist-enabled": false,g' /etc/transmission-daemon/settings.json
 sed -i 's,"script-torrent-done-enabled": false,"script-torrent-done-enabled": true,g' /etc/transmission-daemon/settings.json
 sed -i 's,"script-torrent-done-filename": "","script-torrent-done-filename": "home/'$USER'/.sabnzbd/scripts/TorrentToMedia.py",g' /etc/transmission-daemon/settings.json
-
 sudo sed -i 's,USER=debian-transmission,USER='$USER',g' /etc/init.d/transmission-daemon
-
 printf "\n--->Configuring SabNZBD\n"
 sed -i 's,download_dir = Downloads/incomplete,download_dir = /home/'$USER'/Downloads/Incomplete,g' /home/$USER/.sabnzbd/sabnzbd.ini
 sed -i 's,complete_dir = Downloads/complete,complete_dir = /home/'$USER'/Downloads/Complete,g' /home/$USER/.sabnzbd/sabnzbd.ini
 sed -i 's,script_dir = "",script_dir = "/home/'$USER'/.sabnzbd/scripts",g' /home/$USER/.sabnzbd/sabnzbd.ini
-
 printf "[categories]\n[[tv]]\npriority = -100\npp = 3\nname = tv\nscript = nzbToSickBeard.py\nnewzbin = ""\ndir = ""\n[[movie]]\npriority = -100\npp = 3\nname = movie\nscript = nzbToCouchPotato.py\nnewzbin = ""\ndir = ""\n" >> /home/$USER/.sabnzbd/sabnzbd.ini
 
 printf "\n--->Configuring Sickbeard\n"
 sudo cp .sickbeard/init.ubuntu /etc/init.d/sickbeard
-
 printf "SB_USER=$USER\nSB_HOME=/home/$USER/.sickbeard\nSB_DATA=/home/$USER/.sickbeard\nSB_PIDFILE=/home/$USER/.sickbeard/pid\n" | sudo tee /etc/default/sickbeard
-
 sed -i 's,use_nzbs = 0,use_nzbs = 1,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,nzb_method = blackhole,nzb_method = sabnzbd,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,torrent_method = blackhole,torrent_method = transmission,g' /home/$USER/.sickbeard/config.ini
-
 SAB_API=$(sed -n 's/^api_key = //p' /home/$USER/.sabnzbd/sabnzbd.ini)
-
 sed -i 's,sab_apikey = "",sab_apikey = '$SAB_API',g' /home/$USER/.sickbeard/config.ini
 sed -i 's,sab_host = "",sab_host = http://localhost:8080/,g' /home/$USER/.sickbeard/config.ini
-
 sed -i 's,torrent_host = "",torrent_host = http://localhost:9091/,g' /home/$USER/.sickbeard/config.ini
 sed -i 's,torrent_path = "",torrent_path = /home/'$USER'/Downloads/Complete/tv,g' /home/$USER/.sickbeard/config.ini
-
-
 sed -i 's,nzb_method = blackhole,nzb_method = sabnzbd,g' /home/$USER/.sickbeard/config.ini
 
 printf "\n--->Configuring Couchpotato\n"
 sudo cp .couchpotato/init/ubuntu /etc/init.d/couchpotato
-
 printf "CP_USER=$USER\nCP_HOME=/home/$USER/.couchpotato\nCP_DATA=/home/$USER/.couchpotato/couchpotato_data\nCP_PIDFILE=/home/$USER/.couchpotato/pid\n" | sudo tee /etc/default/couchpotato
 
 printf "\n--->Configuring nzbToMedia\n"
 cp /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg.sample /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,delete_failed = 0,delete_failed = 1,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,fork = default,fork = TPB-failed,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,clientAgent = other,clientAgent = transmission,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,useLink = hard,useLink = move,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,outputDirectory = /abs/path/to/complete/,outputDirectory = /home/'$USER'/Downloads/Complete/,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,TransmissionPORT = 8084,TransmissionPORT = 9091,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,TransmissionUSR = your username,TransmissionUSR = ,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
-
 sed -i 's,TransmissionPWD = your password,TransmissionPWD = ,g' /home/$USER/.sabnzbd/scripts/autoProcessMedia.cfg
 
 printf "\n--->Making executable\n"
@@ -112,4 +91,4 @@ sudo chmod +x /etc/init.d/couchpotato
 sudo chmod +x /etc/default/couchpotato
 sudo update-rc.d couchpotato defaults
 
-printf "\nDone!\n"
+printf "\nDone! Don’t forget to reboot.\n”
