@@ -41,6 +41,8 @@ git clone -b dev-TPB https://github.com/clinton-hall/nzbToMedia.git /home/$USER/
 printf "\n--->Configuring Transmission\n"
 sudo chown -R $USER:$USER /var/lib/transmission-daemon
 sudo chown -R $USER:$USER /etc/transmission-daemon
+
+sudo sed -i 's,debian-transmission,'$USER',g' /etc/init/transmission-daemon.conf
 sed -i 's,/var/lib/transmission-daemon/downloads,/home/'$USER'/Downloads/Complete,g' /etc/transmission-daemon/settings.json
 sed -i 's,/home/debian-transmission/Downloads,/home/'$USER'/Downloads/Incomplete,g' /etc/transmission-daemon/settings.json
 sed -i 's,"incomplete-dir-enabled": false,"incomplete-dir-enabled": true,g' /etc/transmission-daemon/settings.json
