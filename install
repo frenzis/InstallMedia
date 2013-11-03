@@ -21,22 +21,22 @@ sudo sed -i 's,USER=,USER='$USER',g' /etc/default/sabnzbdplus
 sudo sed -i 's,HOST=,HOST=0.0.0.0,g' /etc/default/sabnzbdplus
 
 printf "\n--->Stopping Transmission and SabNZBD…\n"
-service transmission-daemon stop
+sudo service transmission-daemon stop
 service sabnzbdplus start
 service sabnzbdplus stop
 
 printf "\n--->Installing SickBeard…\n"
-git clone -b Pistachitos https://github.com/mr-orange/Sick-Beard.git .sickbeard
+git clone -b Pistachitos https://github.com/mr-orange/Sick-Beard.git /home/$USER/.sickbeard
 python /home/$USER/.sickbeard/SickBeard.py -d
 pkill python
 
 printf "\n--->Installing CouchPotato…\n"
-git clone https://github.com/RuudBurger/CouchPotatoServer.git .couchpotato
+git clone https://github.com/RuudBurger/CouchPotatoServer.git /home/$USER/.couchpotato
 python /home/$USER/.couchpotato/CouchPotato.py --daemon
 pkill python
 
 printf "\n--->Installing nzbToMedia…\n"
-git clone -b dev-TPB https://github.com/clinton-hall/nzbToMedia.git .sabnzbd/scripts
+git clone -b dev-TPB https://github.com/clinton-hall/nzbToMedia.git /home/$USER/.sabnzbd/scripts
 
 printf "\n--->Configuring Transmission\n"
 sudo chown -R $USER:$USER /var/lib/transmission-daemon
