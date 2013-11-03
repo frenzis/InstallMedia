@@ -1,6 +1,6 @@
 apt-get -y purge sabnzbdplus transmission-cli transmission-common transmission-daemon git mercurial
 apt-get -y autoremove
-rm -rf /etc/default/sickbeard /etc/default/sabnzbdplus /etc/default/transmission-daemon /etc/default/couchpotato .sickbeard/ .sabnzbd/ .couchpotato/ /etc/init.d/sickbeard /etc/init.d/couchpotato /etc/init.d/sabnzbdplus /etc/init.d/transmission-daemon Downloads Media
+rm -rf /etc/default/sickbeard /etc/default/sabnzbdplus /etc/default/transmission-daemon /etc/default/couchpotato /home/$USER/.sickbeard/ /home/$USER/.sabnzbd/ /home/$USER/.couchpotato/ /etc/init.d/sickbeard /etc/init.d/couchpotato /etc/init.d/sabnzbdplus /etc/init.d/transmission-daemon /home/$USER/Downloads /home/$USER/Media
 update-rc.d sickbeard remove
 update-rc.d couchpotato remove
 update-rc.d sabnzbdplus remove
